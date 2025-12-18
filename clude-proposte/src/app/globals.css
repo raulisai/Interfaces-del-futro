@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+/*
+ * Sistema de Conciencia Visual
+ *
+ * Paleta OKLCH - Los colores cambian por ESTADO, no por tema.
+ *
+ * Principios:
+ * - Mínimo contraste en reposo
+ * - Emergencia sutil de color con intención
+ * - Nunca gritar, siempre susurrar
+ */
+
+:root {
+  /* Base */
+  --background: oklch(8% 0.01 260);
+  --foreground: oklch(90% 0.02 260);
+  --surface: oklch(12% 0.01 260);
+  --surface-elevated: oklch(15% 0.015 260);
+
+  /* Presencia - Tonos emocionales */
+  --presence-neutral: oklch(70% 0.02 240);
+  --presence-curious: oklch(75% 0.12 80);
+  --presence-concerned: oklch(70% 0.15 25);
+  --presence-encouraging: oklch(75% 0.12 145);
+  --presence-questioning: oklch(70% 0.12 290);
+  --presence-peaceful: oklch(80% 0.08 220);
+
+  /* Líneas de fricción y enfoque */
+  --friction-line: oklch(68% 0.18 28);
+  --focus-line: oklch(75% 0.1 145);
+
+  /* Whisper tones */
+  --whisper: oklch(92% 0.01 260);
+  --whisper-soft: oklch(85% 0.02 260);
+  --alert-soft: oklch(68% 0.15 28);
+  --focus-soft: oklch(82% 0.08 145);
+
+  /* Timing */
+  --transition-fast: 150ms;
+  --transition-medium: 400ms;
+  --transition-slow: 800ms;
+  --transition-glacial: 2000ms;
+
+  /* Typography scale - fluid */
+  --text-xs: clamp(0.65rem, 0.6rem + 0.25vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+  --text-lg: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --text-xl: clamp(1.15rem, 1rem + 0.75vw, 1.25rem);
+  --text-2xl: clamp(1.4rem, 1.2rem + 1vw, 1.5rem);
+  --text-3xl: clamp(1.75rem, 1.5rem + 1.25vw, 1.875rem);
+
+  /* Spacing - rhythmic */
+  --space-1: clamp(0.25rem, 0.2rem + 0.25vw, 0.375rem);
+  --space-2: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+  --space-3: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+  --space-4: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  --space-6: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+  --space-8: clamp(2rem, 1.6rem + 2vw, 3rem);
+}
+
+/* Estado nocturno - más suave */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(6% 0.008 260);
+    --foreground: oklch(85% 0.015 260);
+    --surface: oklch(10% 0.008 260);
+    --surface-elevated: oklch(13% 0.01 260);
+  }
+}
+
+/* Tema por hora - aplica via JS */
+[data-time="late-night"] {
+  --background: oklch(4% 0.005 260);
+  --foreground: oklch(75% 0.01 260);
+  --presence-neutral: oklch(60% 0.015 240);
+  --whisper: oklch(85% 0.008 260);
+}
+
+[data-time="dawn"] {
+  --presence-peaceful: oklch(82% 0.1 50);
+  --whisper: oklch(90% 0.03 50);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Tipografía variable con OpenType features */
+.font-serif {
+  font-family: var(--font-serif);
+  font-feature-settings: "liga" 1, "kern" 1, "calt" 1, "onum" 1;
+  letter-spacing: 0.01em;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-feature-settings: "liga" 0, "calt" 0;
+  letter-spacing: -0.02em;
+}
+
+/* Texto que respira */
+.text-breathing {
+  animation: text-breathe 6s ease-in-out infinite;
+}
+
+@keyframes text-breathe {
+  0%, 100% {
+    opacity: 0.7;
+    letter-spacing: 0.01em;
+  }
+  50% {
+    opacity: 0.9;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Selección sutil */
+::selection {
+  background: oklch(70% 0.08 260 / 0.3);
+  color: inherit;
+}
+
+/* Scrollbar minimalista */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(50% 0.02 260 / 0.3);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(50% 0.02 260 / 0.5);
+}
+
+/* Focus states - sutiles pero presentes */
+*:focus-visible {
+  outline: 1px solid oklch(70% 0.05 260 / 0.5);
+  outline-offset: 2px;
+}
+
+/* Container queries support */
+@supports (container-type: inline-size) {
+  .consciousness-container {
+    container-type: inline-size;
+  }
+
+  @container (max-width: 400px) {
+    .consciousness-text {
+      font-size: var(--text-sm);
+    }
+  }
+}
+
+/* Utilidades de presencia */
+.presence-dormant { opacity: 0; }
+.presence-observing { opacity: 0.15; }
+.presence-sensing { opacity: 0.25; }
+.presence-pondering { opacity: 0.4; }
+.presence-whispering { opacity: 0.6; }
+.presence-interrupting { opacity: 0.85; }
+.presence-retreating { opacity: 0.1; }
+
+/* Transiciones de presencia */
+.presence-transition {
+  transition-property: opacity, transform, filter;
+  transition-duration: var(--transition-slow);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Blur progresivo */
+.blur-presence {
+  filter: blur(0px);
+  transition: filter var(--transition-medium) ease-out;
+}
+
+.blur-presence[data-state="dormant"] {
+  filter: blur(8px);
+}
+
+.blur-presence[data-state="retreating"] {
+  filter: blur(4px);
+}
+
+/* Gradiente de fondo vivo */
+.bg-living {
+  background: linear-gradient(
+    135deg,
+    var(--background) 0%,
+    var(--surface) 50%,
+    var(--background) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 20s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Noise texture overlay (opcional) */
+.texture-noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 1000;
+}
+
+/* Glass effect sutil */
+.glass {
+  background: oklch(50% 0.01 260 / 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Print - todo invisible */
+@media print {
+  .presence-layer,
+  [class*="presence-"],
+  .consciousness-ui {
+    display: none !important;
+  }
+}
